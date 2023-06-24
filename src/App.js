@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { data } from "./constants/data";
+import List from "./List";
 
-function App() {
+const App = () => {
+  const [people, setPeople] = useState(data);
+
+  const deletePerson = (id) => {
+    setPeople((people) => people.filter((c) => c.id !== id));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <section className="container">
+        <h3>{people.length} birthday today</h3>
+        {people.map((person) => (
+          <List key={person.id} {...person} deletePerson={deletePerson} />
+        ))}
+        <button onClick={() => setPeople([])}>Clear All</button>
+      </section>
+    </main>
   );
-}
+};
 
 export default App;
